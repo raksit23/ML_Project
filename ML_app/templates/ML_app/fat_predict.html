@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Covertype Prediction Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4">วิเคราะห์และทำนายระดับของโรคอ้วนด้วยโมเดล Random Forest Classifier</h1>
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            <!-- ปุ่มสำหรับพยากรณ์ -->
+            <button type="submit" class="btn btn-primary mb-4">Predict</button>
+            
+            <!-- ปุ่มสำหรับสลับระหว่างแถวแรกและแถวที่สอง -->
+            <button type="submit" name="load_data" value="{{ button_text }}" class="btn btn-secondary mb-4">{{ button_text }}</button>
+
+            <!-- แสดงข้อความตอบกลับ -->
+            {% if response_message %}
+            <div class="alert alert-info" role="alert">
+                <strong>{{ response_message }}</strong>
+            </div>
+            {% endif %}
+            
+            <!-- แสดงฟอร์ม -->
+            <div class="row">
+                {% for field in form %}
+                    <div class="col-md-4 mb-3">
+                        <div class="form-group">
+                            <label class="form-label">{{ field.label }}</label>
+                            <div class="mb-2"></div> <!-- เพิ่มระยะห่าง -->
+                            {{ field }}
+                        </div>
+                    </div>
+                    {% if forloop.counter|divisibleby:3 %}
+                        </div><div class="row">
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </form>       
+    </div>
+</body>
+</html>
